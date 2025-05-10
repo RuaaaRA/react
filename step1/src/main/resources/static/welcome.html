@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome - LMS</title>
+</head>
+<body>
+  <h1>🎉 Welcome to LMS</h1>
+  <p id="tokenArea">Reading token...</p>
+
+  <button onclick="getMyProfile()">🔍 Get My Profile</button>
+
+  <pre id="profileResult"></pre>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+
+    if (token) {
+      document.getElementById('tokenArea').textContent = `✅ Token: ${token}`;
+      localStorage.setItem('accessToken', token);
+      console.log("✅ Token saved to localStorage:", token);
+    } else {
+      document.getElementById('tokenArea').textContent = '❌ No token found in URL.';
+      console.warn("❌ No token found in URL.");
+    }
+
+    async function getMyProfile() {
+      const accessToken = localStorage.getItem('accessToken');
+      console.log("📦 Loaded token from localStorage:", accessToken);
+
+      if (!accessToken) {
+        alert('❌ No token found in localStorage!');
+        return;
+      }
+
+      try {
+        const response = await fetch('http://localhost:8080/user/my-profile', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`❌ Request failed with status ${response.status}`);
+        }
+
+        const result = await response.json();
+        document.getElementById('profileResult').textContent = JSON.stringify(result, null, 2);
+        console.log("✅ Profile loaded:", result);
+      } catch (error) {
+        console.error("❌ Error fetching profile:", error);
+        document.getElementById('profileResult').textContent = error.message;
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-Step1Application<step1>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "lms.step1.Step1Application",
+            "projectName": "step1",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-Step1Application<lms-monolith>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "lms.step1.Step1Application",
+            "projectName": "lms-monolith",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
